@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Dashboard</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Radio ID</th>
+                    <th>Model</th>
+                    <th>Status</th>
+                    <th>Current User</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for radio in radios %}
+                <tr>
+                    <td>{{ radio['id'] }}</td>
+                    <td>{{ radio['model'] }}</td>
+                    <td>{% if radio['checked_out'] %} Checked Out {% else %} Available {% endif %}</td>
+                    <td>{{ radio['current_user'] }}</td>
+                    <td>
+                        {% if radio['checked_out'] %}
+                        <form action="/checkin" method="post">
+                            <input type="hidden" name="id" value="{{ radio['id'] }}">
+                            <button type="submit">Check In</button>
+                        </form>
+                        {% else %}
+                        <form action="/checkout" method="post">
+                            <input type="hidden" name="id" value="{{ radio['id'] }}">
+                            <label for="user">User:</label>
+                            <input type="text" id="user" name="user">
+                            <button type="submit">Check Out</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+

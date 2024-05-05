@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Checkout Radio</h2>
+        <form action="/checkout" method="post">
+            <label for="id">Radio ID:</label><br>
+            <input type="text" id="id" name="id" value="{{ radio_id }}" readonly><br>
+            <label for="user">User:</label><br>
+            <input type="text" id="user" name="user"><br><br>
+            <input type="submit" value="Check Out">
+        </form>
+    </div>
+</body>
+</html>
