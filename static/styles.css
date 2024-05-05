@@ -2,10 +2,13 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-image: url url('/static/background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .container {
-    width: 80%;
+    width: 50%;
     margin: 50px auto;
 }
 
