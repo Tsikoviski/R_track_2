@@ -12,12 +12,17 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS radios (
                     type TEXT,
                     model_number TEXT,
                     current_user TEXT,
-                    employee_id INTEGER
+                    employee_id TEXT
                 )''')
 
-# Insert the specified radio record
-radio_data = ('Motorola', 'MDH02RDC9VA1AN', 'Emmanuel Arhin', 10162)
-cursor.execute('INSERT INTO radios (type, model_number, current_user, employee_id) VALUES (?, ?, ?, ?)', radio_data)
+# Insert the specified radio records
+radios_data = [
+    ('Motorola', 'MDH02RDC9VA1AN', 'Emmanuel Arhin', '10162'),
+    ('Motorola', 'MDH02RDC9VA1BN', 'Isaac Ackah', '12345'),
+    ('Motorola', 'NDH56RDC9RA1AN', 'Frimpong Addo', 'FA3019')
+]
+
+cursor.executemany('INSERT INTO radios (type, model_number, current_user, employee_id) VALUES (?, ?, ?, ?)', radios_data)
 
 # Commit the transaction
 conn.commit()

@@ -5,9 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            background-image: url('/static/background.jpg'); /* Update path to the background photo */
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="MPS RADIO TRACKING SYSTEM" class="logo">
         <h2>Dashboard</h2>
         <table>
             <thead>
@@ -48,4 +56,5 @@
     </div>
 </body>
 </html>
+
 
