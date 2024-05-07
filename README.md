@@ -56,5 +56,3 @@ Before running this application, make sure you have the following installed:
 - SQLite
 
 ---
-
-Feel free to customize this template according to your specific project details and requirements. You can include additional sections such as Installation, Configuration, Testing, Deployment, Contributing Guidelines, etc., based on your project needs.
