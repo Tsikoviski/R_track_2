@@ -1,6 +1,28 @@
 import sqlite3
 import datetime
 
+# Function to perform a checkout operation
+def checkout_radio(radio_id, current_user, employee_id):
+    # Connect to the SQLite database
+    conn = sqlite3.connect('radios.db')
+    cursor = conn.cursor()
+
+    # Update the corresponding row in the radios table
+    cursor.execute('''
+        UPDATE radios
+        SET checked_out = 1, 
+            current_user = ?, 
+            employee_id = ?, 
+            checkout_date = ?
+        WHERE id = ?
+    ''', (current_user, employee_id, datetime.datetime.now(), radio_id))
+
+    # Commit the transaction
+    conn.commit()
+
+    # Close the connection
+    conn.close()
+
 # Connect to the SQLite database (or create it if it doesn't exist)
 conn = sqlite3.connect('radios.db')
 
@@ -29,34 +51,12 @@ radios_data = [
 
 cursor.executemany('INSERT INTO radios (type, model_number, current_user, employee_id, checked_out, checkout_date) VALUES (?, ?, ?, ?, ?, ?)', radios_data)
 
+# Perform a checkout operation
+checkout_radio(1, 'Emmanuel Arhin', '10162')
+
 # Commit the transaction
 conn.commit()
 
-# Example check-out operation
-def check_out_radio(radio_id, user, employee_id):
-    cursor.execute('''
-        UPDATE radios
-        SET checked_out = 1, 
-            current_user = ?, 
-            employee_id = ?, 
-            checkout_date = ?
-        WHERE id = ?
-    ''', (user, employee_id, datetime.datetime.now(), radio_id))
-    conn.commit()
-
-# Example check-in operation
-def check_in_radio(radio_id):
-    cursor.execute('''
-        UPDATE radios
-        SET checked_out = 0, 
-            current_user = NULL, 
-            employee_id = NULL, 
-            checkout_date = NULL
-        WHERE id = ?
-    ''', (radio_id,))
-    conn.commit()
-
 # Close the connection
 conn.close()
-
 
