@@ -2,12 +2,10 @@ import sqlite3
 import datetime
 
 # Function to perform a checkout operation
-def checkout_radio(radio_id, current_user, employee_id):
-    # Connect to the SQLite database
+def checkout_radio(radio_id, user, employee_id):
     conn = sqlite3.connect('radios.db')
     cursor = conn.cursor()
 
-    # Update the corresponding row in the radios table
     cursor.execute('''
         UPDATE radios
         SET checked_out = 1, 
@@ -15,18 +13,13 @@ def checkout_radio(radio_id, current_user, employee_id):
             employee_id = ?, 
             checkout_date = ?
         WHERE id = ?
-    ''', (current_user, employee_id, datetime.datetime.now(), radio_id))
-
-    # Commit the transaction
+    ''', (user, employee_id, datetime.datetime.now(), radio_id))
     conn.commit()
 
-    # Close the connection
     conn.close()
 
 # Connect to the SQLite database (or create it if it doesn't exist)
 conn = sqlite3.connect('radios.db')
-
-# Create a cursor object to execute SQL queries
 cursor = conn.cursor()
 
 # Create or modify the radios table
@@ -37,7 +30,7 @@ cursor.execute('''
         model_number TEXT,
         current_user TEXT,
         employee_id TEXT,
-        checked_out BOOLEAN NOT NULL DEFAULT 0,  -- Added checked_out column with default value
+        checked_out BOOLEAN NOT NULL DEFAULT 0,
         checkout_date TIMESTAMP
     )
 ''')
@@ -59,4 +52,5 @@ conn.commit()
 
 # Close the connection
 conn.close()
+
 
