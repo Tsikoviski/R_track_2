@@ -25,19 +25,21 @@ def dashboard():
 
 @app.route('/checkout', methods=['POST'])
 def checkout():
-    id = request.form['id']
-    user = request.form['user']
+    radio_id = request.form['id']
+    user_id = request.form['user_id']
+    user_name = request.form['user_name']
     conn = get_db_connection()
-    conn.execute('UPDATE radios SET checked_out=1, current_user=? WHERE id=?', (user, id))
+    conn.execute('UPDATE radios SET checked_out=1, current_user_id=?, current_user_name=? WHERE id=?',
+                 (user_id, user_name, radio_id))
     conn.commit()
     conn.close()
     return redirect(url_for('dashboard'))
 
 @app.route('/checkin', methods=['POST'])
 def checkin():
-    id = request.form['id']
+    radio_id = request.form['id']
     conn = get_db_connection()
-    conn.execute('UPDATE radios SET checked_out=0, current_user=NULL WHERE id=?', (id,))
+    conn.execute('UPDATE radios SET checked_out=0, current_user_id=NULL, current_user_name=NULL WHERE id=?', (radio_id,))
     conn.commit()
     conn.close()
     return redirect(url_for('dashboard'))
