@@ -30,7 +30,7 @@ cursor.execute('''
         model_number TEXT,
         current_user TEXT,
         employee_id TEXT,
-        checked_out BOOLEAN NOT NULL DEFAULT 0,
+        checked_out BOOLEAN NOT NULL DEFAULT 0,  -- Added checked_out column with default value
         checkout_date TIMESTAMP
     )
 ''')
