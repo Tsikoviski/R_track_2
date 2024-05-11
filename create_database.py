@@ -1,20 +1,32 @@
 import sqlite3
 import datetime
+import time
 
-# Function to perform a checkout operation
+# Function to perform a checkout operation with retry logic
 def checkout_radio(radio_id, user, employee_id):
     conn = sqlite3.connect('radios.db')
     cursor = conn.cursor()
 
-    cursor.execute('''
-        UPDATE radios
-        SET checked_out = 1, 
-            current_user = ?, 
-            employee_id = ?, 
-            checkout_date = ?
-        WHERE id = ?
-    ''', (user, employee_id, datetime.datetime.now(), radio_id))
-    conn.commit()
+    attempts = 0
+    while attempts < 3:
+        try:
+            cursor.execute('''
+                UPDATE radios
+                SET checked_out = 1, 
+                    current_user = ?, 
+                    employee_id = ?, 
+                    checkout_date = ?
+                WHERE id = ?
+            ''', (user, employee_id, datetime.datetime.now(), radio_id))
+            conn.commit()
+            break  # Exit the loop if the update is successful
+        except sqlite3.OperationalError as e:
+            if "database is locked" in str(e):
+                # Database is locked, retry after a short delay
+                attempts += 1
+                time.sleep(0.1)  # Wait for 100 milliseconds
+            else:
+                raise  # Re-raise other operational errors
 
     conn.close()
 
@@ -30,7 +42,7 @@ cursor.execute('''
         model_number TEXT,
         current_user TEXT,
         employee_id TEXT,
-        checked_out BOOLEAN NOT NULL DEFAULT 0,  -- Added checked_out column with default value
+        checked_out BOOLEAN NOT NULL DEFAULT 0,
         checkout_date TIMESTAMP
     )
 ''')
@@ -44,7 +56,7 @@ radios_data = [
 
 cursor.executemany('INSERT INTO radios (type, model_number, current_user, employee_id, checked_out, checkout_date) VALUES (?, ?, ?, ?, ?, ?)', radios_data)
 
-# Perform a checkout operation
+# Perform a checkout operation with retry logic
 checkout_radio(1, 'Emmanuel Arhin', '10162')
 
 # Commit the transaction
