@@ -69,5 +69,17 @@ def checkin():
     conn.close()
     return redirect(url_for('dashboard'))
 
+@app.route('/add_radio', methods=['POST'])
+def add_radio():
+    radio_id = request.form['radio_id']
+    model = request.form['model']
+    serial_number = request.form['serial_number']
+    conn = get_db_connection()
+    conn.execute('INSERT INTO radios (id, model, serial_number, checked_out) VALUES (?, ?, ?, ?)',
+                 (radio_id, model, serial_number, 0))  # Assuming checked_out is set to 0 for new radios
+    conn.commit()
+    conn.close()
+    return redirect(url_for('dashboard'))
+
 if __name__ == '__main__':
     app.run(debug=True)
