@@ -22,6 +22,18 @@
     <img src="{{ url_for('static', filename='logo.png') }}" alt="MPS RADIO TRACKING SYSTEM" class="logo">
     <div class="container">
         <h2>Dashboard</h2>
+        <form action="/dashboard" method="GET">
+            <label for="current_user">Show Current Users:</label>
+            <input type="checkbox" id="current_user" name="current_user" {% if current_user %}checked{% endif %}>
+            <br>
+            <label for="available_radios">Show Available Radios:</label>
+            <input type="checkbox" id="available_radios" name="available_radios" {% if available_radios %}checked{% endif %}>
+            <br>
+            <label for="unavailable_radios">Show Unavailable Radios:</label>
+            <input type="checkbox" id="unavailable_radios" name="unavailable_radios" {% if unavailable_radios %}checked{% endif %}>
+            <br>
+            <button type="submit">Apply Filters</button>
+        </form>
         <table>
             <thead>
                 <tr>
@@ -63,5 +75,3 @@
     </div>
 </body>
 </html>
-
-
