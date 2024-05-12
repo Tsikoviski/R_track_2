@@ -49,20 +49,15 @@ cursor.execute('''
 
 # Insert the specified radio records
 radios_data = [
-    ('Motorola', 'MDH02RDC9VA1AN', 'Emmanuel Arhin', '10162', False, None),
-    ('Motorola', 'MDH02RDC9VA1BN', 'Isaac Ackah', '12345', False, None),
-    ('Motorola', 'NDH56RDC9RA1AN', 'Frimpong Addo', 'FA3019', False, None)
+    ('Motorola', 'MDH02RDC9VA1AN', None, None, False, None),  # Adjust as needed
+    ('Motorola', 'MDH02RDC9VA1BN', None, None, False, None),  # Adjust as needed
+    ('Motorola', 'NDH56RDC9RA1AN', None, None, False, None)   # Adjust as needed
 ]
 
 cursor.executemany('INSERT INTO radios (type, model_number, current_user, employee_id, checked_out, checkout_date) VALUES (?, ?, ?, ?, ?, ?)', radios_data)
-
-# Perform a checkout operation with retry logic
-checkout_radio(1, 'Emmanuel Arhin', '10162')
 
 # Commit the transaction
 conn.commit()
 
 # Close the connection
 conn.close()
-
-
