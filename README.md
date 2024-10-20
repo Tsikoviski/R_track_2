@@ -39,7 +39,7 @@ Before running this application, make sure you have the following installed:
 4. Run the application:
 
     ```
-    python app.py
+    python3 app.py
     ```
 
 5. Open your web browser and go to `http://localhost:5000` to access the application.
